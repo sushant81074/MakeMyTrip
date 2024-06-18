@@ -3,6 +3,7 @@ import mongoose, { Document } from "mongoose";
 export interface UserInterface extends Document {
   username: string;
   email: string;
+  role: string;
   password: string;
   contactNo: number;
   isVerified: boolean;
@@ -15,6 +16,11 @@ const userSchema: mongoose.Schema<UserInterface> = new mongoose.Schema(
       type: String,
       required: [true, "username is required"],
       trim: true,
+    },
+    role: {
+      type: String,
+      enum: ["USER", "ADMIN"],
+      default: "USER",
     },
     email: {
       type: String,
