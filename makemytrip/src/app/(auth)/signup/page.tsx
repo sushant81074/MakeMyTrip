@@ -1,14 +1,13 @@
-import Image from "next/image";
-import React from "react";
-import backgraoundImage from "@/public/backgraoundImage.svg";
-import plane from "@/public/plane.svg";
-import tajmahal from "@/public/tajmahal.png";
-import google from "@/public/google.svg";
-import github from "@/public/github.png";
-import lalkila from "@/public/lalkila.png";
-import { Input } from "@/components/ui/input";
+import AuthForm from "@/components/shared/authform";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import backgraoundImage from "@/public/backgraoundImage.svg";
+import github from "@/public/github.png";
+import google from "@/public/google.svg";
+import lalkila from "@/public/lalkila.png";
+import plane from "@/public/plane.svg";
+import tajmahal from "@/public/tajmahal.png";
+import Image from "next/image";
 
 const SignUpPage = () => {
   return (
@@ -16,10 +15,9 @@ const SignUpPage = () => {
       <div className="w-full relative">
         <Image
           src={backgraoundImage}
-          className="object-cover"
+          className="object-cover h-full"
           alt="bgImage"
           width={783}
-          height={868}
         />
       </div>
       <div className="w-full flex flex-col overflow-clip items-center py-16 relative">
@@ -44,6 +42,7 @@ const SignUpPage = () => {
           height={47}
           className="absolute -left-3 bottom-0"
         />
+
         <div className="flex flex-col items-center">
           <h2 className="text-[#009EE2] font-bold text-4xl">Welcome</h2>
           <p className="text-xs text-neutral-400/60 font-bold">
@@ -51,28 +50,8 @@ const SignUpPage = () => {
           </p>
         </div>
 
-        <div className="w-full max-w-sm pt-3 flex flex-col items-center gap-3">
-          <Input
-            name="email"
-            className="focus-visible:ring-[#009EE2]/50 outline-none border-none bg-neutral-100 w-full p-3 rounded-md h-12"
-            placeholder="your email"
-          />
-          <Input
-            className="focus-visible:ring-[#009EE2]/50 outline-none border-none bg-neutral-100 w-full p-3 rounded-md h-12"
-            name="password"
-            placeholder="your password"
-          />
-          <p className="text-xs self-end text-neutral-400 font-bold underline cursor-pointer">
-            Forgot Your Password ?
-          </p>
-
-          <Button
-            size={"sm"}
-            className="bg-[#009EE2] text-white font-bold w-[7rem] hover:bg-[#009EE2]/90 transition-all"
-          >
-            Sign Up
-          </Button>
-        </div>
+        {/* AuthForm */}
+        <AuthForm type="signup" />
 
         <div className="flex py-4 justify-center items-center gap-8">
           <Separator className="w-full" />
