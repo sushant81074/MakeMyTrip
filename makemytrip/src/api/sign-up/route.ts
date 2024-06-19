@@ -2,6 +2,10 @@ import User from "@/model/user.model";
 import dbConnect from "@/lib/dbConnect";
 import { NextRequest, NextResponse } from "next/server";
 import { fieldValidator } from "@/utils/fieldValidator";
+import { MailOptions } from "@/utils/mailOptions";
+import transporter from "@/utils/nodemailer";
+import otpGenerator from "@/utils/otpGenerator";
+import { randomUUID } from "crypto";
 
 export async function POST(request: Request) {
   await dbConnect();
@@ -18,6 +22,7 @@ export async function POST(request: Request) {
       contactNo,
     };
     const validFields = ["email", "username", "password", "contactNo"];
+
     const invalidFields = fieldValidator(validFields, requestedFields);
 
     if (parseInt(invalidFields.length) > 0)
@@ -34,9 +39,10 @@ export async function POST(request: Request) {
         { status: 401 }
       );
 
-    const newUser = await User.create(requestedFields);
+    let otp = otpGenerator();
+    let userId = randomUUID();
 
-    //
+    const newUser = await User.create({ otp, userId, ...requestedFields });
 
     if (!newUser)
       return NextResponse.json(
@@ -44,10 +50,20 @@ export async function POST(request: Request) {
         { status: 400 }
       );
 
+    const mailOptions: MailOptions = {
+      from: process.env.EMAIL || "",
+      to: email,
+      subject: "Account Verification OTP",
+      text: `Name: ${username}\nEmail: ${email}\nMessage: Your OTP ${otp}`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
     return NextResponse.json(
       {
         message:
           "user registration successful please verify user with verification mail sent to you",
+        success: true,
       },
       { status: 201 }
     );
@@ -55,7 +71,7 @@ export async function POST(request: Request) {
     console.error("error occured :", error);
 
     return NextResponse.json(
-      { message: "error occured", error },
+      { message: "error occured", success: false },
       { status: 500 }
     );
   }

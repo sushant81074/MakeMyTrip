@@ -48,6 +48,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token._id = user._id;
         token.email = user.email;
+        token.userId = user.userId;
         token.username = user.username;
         token.isActive = user.isActive;
         token.isVerified = user.isVerified;
@@ -59,6 +60,7 @@ export const authOptions: NextAuthOptions = {
       if (token) {
         session.user._id = token._id;
         session.user.email = token.email;
+        session.user.userId = token.userId;
         session.user.username = token.username;
         session.user.isActive = token.isActive;
         session.user.isVerified = token.isVerified;
