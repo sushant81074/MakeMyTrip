@@ -30,28 +30,17 @@ export async function POST(request: Request) {
         { status: 400 }
       );
 
-    if (verifyAccount?.otp == otp) {
-      verifyAccount = await User.findByIdAndUpdate(verifyAccount._id, {
-        $set: {
-          isVerified: true,
-          isAcitve: true,
-        },
-        $unset: {
-          otp: 1,
-        },
-      });
+    if (verifyAccount.otp == otp) {
+      verifyAccount.isActive = true;
+      verifyAccount.isVerified = true;
     }
 
-    if (!verifyAccount?.isVerified)
-      return NextResponse.json(
-        { message: "account verification unsuccessful", success: false },
-        { status: 500 }
-      );
+    await verifyAccount.save();
 
     return NextResponse.json(
       {
         message: "account verification successful",
-        success: verifyAccount?.isVerified,
+        success: true,
       },
       { status: 200 }
     );
