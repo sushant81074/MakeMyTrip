@@ -30,17 +30,37 @@ export async function POST(request: Request) {
         { status: 400 }
       );
 
-    if (verifyAccount.otp == otp) {
-      verifyAccount.isActive = true;
-      verifyAccount.isVerified = true;
-    }
+    if (verifyAccount.otp != otp)
+      return NextResponse.json(
+        { message: "invalid otp, email verification unsuccessful" },
+        { status: 400 }
+      );
 
-    await verifyAccount.save();
+    const verifiedAccount = await User.findByIdAndUpdate(
+      verifyAccount._id,
+      {
+        $set: {
+          isVerified: true,
+          isActive: true,
+        },
+        $unset: {
+          otp: 1,
+        },
+      },
+      { new: true }
+    );
+
+    if (!verifiedAccount?.isVerified)
+      return NextResponse.json(
+        { message: "email verification unsuccessful" },
+        { status: 500 }
+      );
 
     return NextResponse.json(
       {
         message: "account verification successful",
         success: true,
+        verifiedAccount,
       },
       { status: 200 }
     );
