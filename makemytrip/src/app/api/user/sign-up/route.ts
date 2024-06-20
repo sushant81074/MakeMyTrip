@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     if (userExists)
       return NextResponse.json(
         { message: `user already exists with this username and email` },
-        { status: 401 }
+        { status: 409 }
       );
 
     let otp = otpGenerator();

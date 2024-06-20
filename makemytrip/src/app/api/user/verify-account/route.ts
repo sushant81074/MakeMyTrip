@@ -55,8 +55,11 @@ export async function POST(request: Request) {
 
     if (!verifiedAccount?.isVerified)
       return NextResponse.json(
-        { message: "email verification unsuccessful" },
-        { status: 500 }
+        {
+          message:
+            "email verification unsuccessful, 'cause user with email not found",
+        },
+        { status: 404 }
       );
 
     return NextResponse.json(
