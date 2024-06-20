@@ -1,6 +1,7 @@
 import User from "@/model/user.model";
 import dbConnect from "@/lib/dbConnect";
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 import { fieldValidator } from "@/utils/fieldValidator";
 import { MailOptions } from "@/utils/mailOptions";
 import transporter from "@/utils/nodemailer";
@@ -43,8 +44,16 @@ export async function POST(request: Request) {
 
     let otp = otpGenerator();
     let userId = randomUUID();
+    let hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await User.create({ otp, userId, ...requestedFields });
+    const newUser = await User.create({
+      otp,
+      userId,
+      email,
+      username,
+      contactNo,
+      password: hashedPassword,
+    });
 
     if (!newUser)
       return NextResponse.json(
@@ -69,12 +78,12 @@ export async function POST(request: Request) {
       },
       { status: 201 }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error("error occured :", error);
 
     return NextResponse.json(
-      { message: "error occured", success: false },
-      { status: 500 }
+      { message: error.message || "error occured", success: false },
+      { status: error.status || 500 }
     );
   }
 }
