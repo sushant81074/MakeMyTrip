@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/model/user.model";
 import { fieldValidator } from "@/utils/fieldValidator";
+import console from "console";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -13,6 +14,7 @@ export async function POST(request: Request) {
     const validFields = ["email", "otp"];
 
     const invalidFields = fieldValidator(validFields, requestedFields);
+
 
     if (parseInt(invalidFields.length) > 0)
       return NextResponse.json(
