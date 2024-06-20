@@ -1,5 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
-import Hotel from "@/model/hotels.model";
+import User from "@/model/user.model";
 import { fieldValidator } from "@/utils/fieldValidator";
 import { NextResponse } from "next/server";
 
@@ -7,43 +7,40 @@ export async function POST(request: Request) {
   await dbConnect();
 
   try {
-    if (request.method !== "POST")
-      return NextResponse.json(
-        { message: "invalid request method" },
-        { status: 405 }
-      );
+    const { email, otp } = await request.json();
 
-    const { hotelEmail, otp } = await request.json();
-
-    const requestedFields = { hotelEmail, otp };
-    const validFields = ["hotelEmail", "otp"];
+    const requestedFields = { email, otp };
+    const validFields = ["email", "otp"];
 
     const invalidFields = fieldValidator(validFields, requestedFields);
-    console.log(invalidFields, typeof invalidFields);
-    if (invalidFields.length)
+
+    if (
+      invalidFields.invalidFields.length > 0 ||
+      invalidFields.missingFields.length > 0
+    )
       return NextResponse.json(
         { message: `${invalidFields}` },
         { status: 400 }
       );
 
-    const hotel = await Hotel.findOne({ hotelEmail });
-    if (!hotel)
-      return NextResponse.json({ message: "hotel not found" }, { status: 404 });
+    let verifyAccount = await User.findOne({ email });
+    if (!verifyAccount)
+      return NextResponse.json({ message: "user not found" }, { status: 404 });
 
-    if (hotel.isVerified)
+    if (verifyAccount?.isVerified)
       return NextResponse.json(
-        { message: "hotel already verified" },
+        { message: "account already verified" },
         { status: 400 }
       );
 
-    if (hotel.otp !== otp)
+    if (verifyAccount.otp != otp)
       return NextResponse.json(
-        { message: "invalid otp", success: false },
+        { message: "invalid otp, email verification unsuccessful" },
         { status: 400 }
       );
 
-    const verifiedHotel = await Hotel.findOneAndUpdate(
-      hotel._id,
+    const verifiedAccount = await User.findByIdAndUpdate(
+      verifyAccount._id,
       {
         $set: {
           isVerified: true,
@@ -56,15 +53,15 @@ export async function POST(request: Request) {
       { new: true }
     );
 
-    if (!verifiedHotel?.isVerified)
+    if (!verifiedAccount?.isVerified)
       return NextResponse.json(
-        { message: "hotel verification unsuccessful", success: false },
+        { message: "email verification unsuccessful" },
         { status: 500 }
       );
 
     return NextResponse.json(
       {
-        message: "hotel verification successful",
+        message: "account verification successful",
         success: true,
       },
       { status: 200 }
