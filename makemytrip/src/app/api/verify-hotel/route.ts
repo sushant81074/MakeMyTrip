@@ -13,20 +13,20 @@ export async function POST(request: Request) {
         { status: 405 }
       );
 
-    const { email, otp } = await request.json();
+    const { hotelEmail, otp } = await request.json();
 
-    const requestedFields = { email, otp };
-    const validFields = ["email", "otp"];
+    const requestedFields = { hotelEmail, otp };
+    const validFields = ["hotelEmail", "otp"];
 
     const invalidFields = fieldValidator(validFields, requestedFields);
+    console.log(invalidFields, typeof invalidFields);
     if (invalidFields.length)
       return NextResponse.json(
         { message: `${invalidFields}` },
         { status: 400 }
       );
 
-    console.log(email);
-    const hotel = await Hotel.findOne({ hotelEmail: email });
+    const hotel = await Hotel.findOne({ hotelEmail });
     if (!hotel)
       return NextResponse.json({ message: "hotel not found" }, { status: 404 });
 
