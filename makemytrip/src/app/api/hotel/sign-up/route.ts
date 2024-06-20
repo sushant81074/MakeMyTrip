@@ -77,7 +77,7 @@ export async function POST(request: Request) {
     if (hotelExists)
       return NextResponse.json(
         { message: "hotel with hotelname and email already exists" },
-        { status: 400 }
+        { status: 409 }
       );
 
     let otp = otpGenerator();

@@ -1,7 +1,16 @@
 import dbConnect from "@/lib/dbConnect";
-import User from "@/model/user.model";
+import Hotel from "@/model/hotels.model";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
+
+// what we want to do is first we'll check that if the user is authorised and what not basic validations
+// then we need to check if the person loggedin is the real owner or admin of the hotel account
+// if yes then only we'll let the user disable the hotel account
+
+// or
+
+// we can keep the hotel as an entity itself with keeping a password
+// THIS ISN'T COMPLETE AND WE'LL DEAL WITH IT LATER
 
 async function PATCH(request: Request) {
   await dbConnect();
@@ -21,7 +30,13 @@ async function PATCH(request: Request) {
         { status: 401 }
       );
 
-    const deacitvateUser = await User.findByIdAndUpdate(
+    if (session?.user?.role !== "HOTEL-ADMIN")
+      return NextResponse.json(
+        { message: "forbidden access/ invalid user role" },
+        { status: 403 }
+      );
+
+    const deacitvateUser = await Hotel.findByIdAndUpdate(
       session?.user?._id,
       {
         $set: {

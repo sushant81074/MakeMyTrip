@@ -27,7 +27,7 @@ const userSchema: mongoose.Schema<UserInterface> = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["USER", "ADMIN"],
+      enum: ["USER", "HOTEL-ADMIN", "PLATFORM-ADMIN"],
       default: "USER",
     },
     email: {

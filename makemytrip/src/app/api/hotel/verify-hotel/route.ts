@@ -61,8 +61,12 @@ export async function POST(request: Request) {
 
     if (!verifiedHotel?.isVerified)
       return NextResponse.json(
-        { message: "hotel verification unsuccessful", success: false },
-        { status: 500 }
+        {
+          message:
+            "hotel verification unsuccessful, 'cause hotel with email not found",
+          success: false,
+        },
+        { status: 404 }
       );
 
     return NextResponse.json(
