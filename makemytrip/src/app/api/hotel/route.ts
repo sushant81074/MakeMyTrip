@@ -67,6 +67,16 @@ export async function POST(request: Request) {
         { status: 400 }
       );
 
+    const hotelExists = await Hotel.findOne({
+      name: hotelData.name,
+      hotelEmail: hotelData.hotelEmail,
+    });
+    if (hotelExists)
+      return NextResponse.json(
+        { message: "hotel with hotelname and email already exists" },
+        { status: 400 }
+      );
+
     let otp = otpGenerator();
     let hotelId = randomUUID();
 
