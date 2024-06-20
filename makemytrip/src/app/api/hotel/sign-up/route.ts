@@ -61,7 +61,10 @@ export async function POST(request: Request) {
 
     const invalidFields = fieldValidator(validFields, hotelData);
 
-    if (invalidFields.length)
+    if (
+      invalidFields.invalidFields.length > 0 ||
+      invalidFields.missingFields.length > 0
+    )
       return NextResponse.json(
         { message: `${invalidFields}` },
         { status: 400 }

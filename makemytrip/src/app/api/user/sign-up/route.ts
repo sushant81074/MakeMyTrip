@@ -28,9 +28,14 @@ export async function POST(request: Request) {
 
     const invalidFields = fieldValidator(validFields, requestedFields);
 
-    if (parseInt(invalidFields.length) > 0)
+    if (
+      invalidFields.invalidFields.length > 0 ||
+      invalidFields.missingFields.length > 0
+    )
       return NextResponse.json(
-        { message: `${invalidFields}` },
+        {
+          message: `${invalidFields.invalidFields}||${invalidFields.missingFields}`,
+        },
         { status: 400 }
       );
 
@@ -44,6 +49,7 @@ export async function POST(request: Request) {
 
     let otp = otpGenerator();
     let userId = randomUUID();
+
     let hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await User.create({

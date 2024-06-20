@@ -1,32 +1,41 @@
 export function fieldValidator<T extends Record<string, unknown>>(
-  fields: string[],
+  validFields: string[],
   data: T
-): Record<string, string> {
-  const errors: Record<string, string> = {};
+): {
+  missingFields: string[];
+  invalidFields: { field: string; message: string }[];
+} {
+  const missingFields: string[] = [];
+  const invalidFields: { field: string; message: string }[] = [];
 
-  fields.forEach((field) => {
-    // Check for missing field and provide a generic error message
+  validFields.forEach((field) => {
+    // Check for missing field
     if (typeof data[field] === "undefined") {
-      errors[field] = `${field} is required`;
-    }
+      missingFields.push(field);
+    } else {
+      // Specific validation logic for email
+      if (
+        field === "email" &&
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data[field] as string)
+      ) {
+        invalidFields.push({ field: "email", message: "Invalid email format" });
+      }
 
-    // Specific validation logic for email
-    if (
-      field === "email" &&
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((data[field] as string) || "")
-    ) {
-      errors.email = "Invalid email format";
-    }
+      // Specific validation logic for password
+      if (
+        field === "password" &&
+        typeof data[field] === "string" &&
+        (data[field] as string).length < 6
+      ) {
+        invalidFields.push({
+          field: "password",
+          message: "Password must be at least 6 characters long",
+        });
+      }
 
-    // Specific validation logic for password
-    if (
-      field === "password" &&
-      typeof data[field] === "string" &&
-      (data[field] as string).length < 6
-    ) {
-      errors.password = "Password must be at least 6 characters long";
+      // Add other specific validation logic as needed
     }
   });
 
-  return errors;
+  return { missingFields, invalidFields };
 }
