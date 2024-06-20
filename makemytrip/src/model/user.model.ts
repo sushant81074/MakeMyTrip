@@ -18,6 +18,7 @@ const userSchema: mongoose.Schema<UserInterface> = new mongoose.Schema(
       type: String,
       required: [true, "username is required"],
       trim: true,
+      lowercase: true,
     },
     userId: {
       type: String,
@@ -33,6 +34,7 @@ const userSchema: mongoose.Schema<UserInterface> = new mongoose.Schema(
       type: String,
       required: [true, "email is required"],
       trim: true,
+      lowercase: true,
       match: [/.+\@.+\..+/, "please insert a valid email"],
     },
     password: {
