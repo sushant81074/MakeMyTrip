@@ -16,7 +16,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "invalid method" }, { status: 405 });
 
     const { email, username, password, contactNo } = await request.json();
-    console.log("Request body:", { email, username, password, contactNo });
 
     const requestedFields = {
       email,

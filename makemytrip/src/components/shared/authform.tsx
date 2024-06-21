@@ -1,12 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import {
+  handleGenericError,
+  handleHTTPError,
+  handleValidationErrors,
+} from "@/lib/utils";
+import { LoaderCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { LoaderCircle } from "lucide-react";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 const validateSchema = z.object({
   email: z.string().email(),
@@ -40,7 +45,6 @@ const AuthForm = ({ type }: { type: "login" | "signup" }) => {
       };
 
       validateSchema.parse(data);
-      // console.log("Sign up data:", signUpData);
 
       // Reset errors if validation passes
       setErrors({});
@@ -55,42 +59,30 @@ const AuthForm = ({ type }: { type: "login" | "signup" }) => {
           body: JSON.stringify(data),
         });
 
-        if (!res.ok) {
-          if (res.status === 401) {
-            setLoading(false);
-            throw new Error("User already exists with this email and username");
-          }
-          setLoading(false);
-          throw new Error();
-        }
-
         // Handle response
         const response = await res.json();
 
-        if (response.success === true) {
+
+        if (!res.ok) {
+          // handleHTTPError(res.status, response.message);
+          return;
+        }
+
+        if (response.message) {
           toast.message(response.message);
-          // how to replace a navigation history in next js app router
           router.push("/verify");
-          console.log("Response:", response);
+          // console.log("Response:", response);
         }
         setLoading(false);
       }
     } catch (error: any) {
       if (error instanceof z.ZodError) {
-        const validationErrors: { [key: string]: string } = {};
-        error.errors.forEach((err) => {
-          if (err.path[0]) {
-            validationErrors[err.path[0] as string] = err.message;
-          }
-        });
-        // console.log(error.errors);
-
-        setLoading(false);
-        setErrors(validationErrors);
+        handleValidationErrors(error, setErrors, setLoading);
       } else {
-        setLoading(false);
-        toast.error(error.message);
+        handleGenericError(error, setLoading);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
