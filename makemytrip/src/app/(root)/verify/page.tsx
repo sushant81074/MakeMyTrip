@@ -9,7 +9,13 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { Label } from "@/components/ui/label";
+import {
+  handleGenericError,
+  handleHTTPError,
+  handleValidationErrors,
+} from "@/lib/utils";
 import { LoaderCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -26,6 +32,7 @@ const FormSchema = z.object({
 });
 
 const VerifyPage = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
     otp: "",
@@ -45,13 +52,11 @@ const VerifyPage = () => {
 
       FormSchema.parse(data);
 
-      // console.log("Verify up data:", formData);
-
       // Reset errors if validation passes
       setErrors({});
 
       // Call API
-      const res = await fetch(`http://localhost:3000/api/verify-account`, {
+      const res = await fetch(`http://localhost:3000/api/user/verify-account`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,33 +67,24 @@ const VerifyPage = () => {
         }),
       });
 
-      // if (!res.ok || res.status === 400) {
-      //   setLoading(false);
-      //   throw new Error("Invalid OTP, email verification unsuccessful");
-      // }
-
       const response = await res.json();
 
-      if (response.message) {
-        toast.message(response.message);
+      if (!res.ok) {
+        handleHTTPError(res.status, response.message);
+        return;
       }
 
-      console.log("Response:", response);
+      if (response.message) {
+        toast.success(response.message);
+        router.push("/");
+      }
+
+      setLoading(false);
     } catch (error: any) {
       if (error instanceof z.ZodError) {
-        const validationErrors: { [key: string]: string } = {};
-        error.errors.forEach((err) => {
-          if (err.path[0]) {
-            validationErrors[err.path[0] as string] = err.message;
-          }
-        });
-        // console.log(error.errors);
-
-        setLoading(false);
-        setErrors(validationErrors);
+        handleValidationErrors(error, setErrors, setLoading);
       } else {
-        setLoading(false);
-        toast.error(error.message);
+        handleGenericError(error, setLoading);
       }
     } finally {
       setLoading(false);

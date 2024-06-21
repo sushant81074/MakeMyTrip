@@ -70,10 +70,12 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: "auth/signin",
+    signIn: "auth/login",
   },
   session: {
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
+
+// sushant94601@gmail.com
