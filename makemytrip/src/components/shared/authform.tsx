@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { signIn } from "next-auth/react";
 
 const validateSignUpSchema = z.object({
   email: z.string().email(),
@@ -70,22 +71,31 @@ const AuthForm = ({ type }: { type: "login" | "signup" }) => {
           body: JSON.stringify(data),
         });
       } else {
-        res = await fetch("http://localhost:3000/api/auth/sign-up", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: signUpData.email,
-            password: signUpData.password,
-          }),
+        await signIn("credentials", {
+          email: signUpData.email,
+          password: signUpData.password,
+          redirect: false,
         });
+
+        // res = await fetch("http://localhost:3000/api/auth/sign-up", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({
+        //     email: signUpData.email,
+        //     password: signUpData.password,
+        //   }),
+        // });
       }
 
       // Handle response
+      // if (type === "signup") {
       const response = await res?.json();
+      // }
 
       if (!res?.ok) {
+        // @ts-ignore
         handleHTTPError(res.status, response.message);
         return;
       }
