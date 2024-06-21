@@ -63,7 +63,7 @@ const AuthForm = ({ type }: { type: "login" | "signup" }) => {
         const response = await res.json();
 
         if (!res.ok) {
-          handleHTTPError(res.status, response.message);
+          // handleHTTPError(res.status, response.message);
           return;
         }
 
@@ -76,9 +76,9 @@ const AuthForm = ({ type }: { type: "login" | "signup" }) => {
       }
     } catch (error: any) {
       if (error instanceof z.ZodError) {
-        handleValidationErrors(error, setErrors, setLoading);
-      } else {
         handleGenericError(error, setLoading);
+      } else {
+        handleValidationErrors(error, setErrors, setLoading);
       }
     } finally {
       setLoading(false);
