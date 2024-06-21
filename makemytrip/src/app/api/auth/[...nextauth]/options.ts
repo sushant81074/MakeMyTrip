@@ -19,13 +19,8 @@ export const authOptions: NextAuthOptions = {
         await dbConnect();
 
         try {
-          console.log("credentials", credentials);
-
           const user = await User.findOne({
-            $or: [
-              { email: credentials.identifier },
-              { username: credentials.identifier },
-            ],
+            email: credentials.email,
           });
 
           if (!user) throw new Error("no user found with email or username");
@@ -33,9 +28,10 @@ export const authOptions: NextAuthOptions = {
           if (!user.isVerified)
             throw new Error("please verify account before login");
 
-          if (await bcrypt.compare(credentials.password, user.password))
+          if (await bcrypt.compare(credentials.password, user.password)) {
+            console.log("user authentication successful");
             return user;
-          else throw new Error("incorrect password");
+          } else throw new Error("incorrect password");
           //   auth done
         } catch (error: any) {
           console.error("error occured in nextauth", error);
@@ -79,5 +75,3 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
-
-// sushant94601@gmail.com

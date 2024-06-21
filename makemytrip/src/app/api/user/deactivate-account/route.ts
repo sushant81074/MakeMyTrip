@@ -1,9 +1,11 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/model/user.model";
 import { getServerSession } from "next-auth";
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
+import { authOptions } from "../../auth/[...nextauth]/options";
 
-async function PATCH(request: Request) {
+export async function PATCH(request: Request) {
   await dbConnect();
 
   try {
@@ -13,11 +15,24 @@ async function PATCH(request: Request) {
         { status: 405 }
       );
 
-    const session = await getServerSession();
+    let _id = 0;
+    let session = await getServerSession({
+      // @ts-ignore
+      req: request,
+      options: authOptions,
+    });
+    console.log(session);
 
-    if (!session || session?.user?._id)
+    let token = await getToken({
+      // @ts-ignore
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+    console.log("token", token);
+
+    if ((!session || !session?.user?._id) && (!token || !token?._id))
       return NextResponse.json(
-        { message: "unauthorized user" },
+        { message: "unauthenticated user" },
         { status: 401 }
       );
 
