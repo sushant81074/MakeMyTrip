@@ -13,68 +13,92 @@ import { z } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
-const validateSchema = z.object({
+const validateSignUpSchema = z.object({
   email: z.string().email(),
   username: z.string().min(3),
   password: z.string().min(6),
   contactNo: z.string().min(10),
 });
+
+const validateLogInSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+
 const AuthForm = ({ type }: { type: "login" | "signup" }) => {
   const router = useRouter();
-  const inputCss = `focus-visible:ring-[#009EE2]/50 outline-none border-none bg-neutral-100 w-full p-3 rounded-md ${
-    type === "login" ? "h-12" : "h-10"
-  }`;
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [signUpData, setSignUpData] = useState({
     email: "",
     username: "",
     password: "",
     contactNo: "",
   });
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const inputCss = `focus-visible:ring-[#009EE2]/50 outline-none border-none bg-neutral-100 w-full p-3 rounded-md ${
+    type === "login" ? "h-12" : "h-10"
+  }`;
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const data = {
-        email: signUpData.email,
-        password: signUpData.password,
-        username: signUpData.username,
-        contactNo: signUpData.contactNo,
-      };
 
-      validateSchema.parse(data);
+      let data = {};
+      if (type === "login") {
+        data = {
+          email: signUpData.email,
+          password: signUpData.password,
+        };
+        validateLogInSchema.parse(data);
+      } else {
+        data = signUpData;
+        validateSignUpSchema.parse(data);
+      }
 
       // Reset errors if validation passes
       setErrors({});
 
+      let res;
       // Call API
       if (type === "signup") {
-        const res = await fetch("http://localhost:3000/api/sign-up", {
+        res = await fetch("http://localhost:3000/api/user/sign-up", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
         });
-
-        // Handle response
-        const response = await res.json();
-
-
-        if (!res.ok) {
-          // handleHTTPError(res.status, response.message);
-          return;
-        }
-
-        if (response.message) {
-          toast.message(response.message);
-          router.push("/verify");
-          // console.log("Response:", response);
-        }
-        setLoading(false);
+      } else {
+        res = await fetch("http://localhost:3000/api/auth/sign-up", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: signUpData.email,
+            password: signUpData.password,
+          }),
+        });
       }
+
+      // Handle response
+      const response = await res?.json();
+
+      if (!res?.ok) {
+        handleHTTPError(res.status, response.message);
+        return;
+      }
+
+      if (response.message) {
+        toast(response.message);
+        if (type === "login") {
+          router.push("/");
+        } else {
+          router.push("/verify");
+        }
+      }
+      setLoading(false);
     } catch (error: any) {
       if (error instanceof z.ZodError) {
         handleValidationErrors(error, setErrors, setLoading);
@@ -158,8 +182,10 @@ const AuthForm = ({ type }: { type: "login" | "signup" }) => {
           ) : (
             "Sign-Up"
           )
+        ) : loading ? (
+          <LoaderCircle className="w-4 h-4 animate-spin" />
         ) : (
-          "Log In"
+          "Login"
         )}
       </Button>
     </div>

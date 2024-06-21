@@ -35,6 +35,8 @@ export const handleValidationErrors = (
     }
   });
 
+  console.log("validationErrors", validationErrors);
+
   setErrors(validationErrors);
   setLoading(false);
 };
