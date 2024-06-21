@@ -1,7 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/model/user.model";
 import { fieldValidator } from "@/utils/fieldValidator";
-import console from "console";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -15,8 +14,10 @@ export async function POST(request: Request) {
 
     const invalidFields = fieldValidator(validFields, requestedFields);
 
-
-    if (parseInt(invalidFields.length) > 0)
+    if (
+      invalidFields.invalidFields.length > 0 ||
+      invalidFields.missingFields.length > 0
+    )
       return NextResponse.json(
         { message: `${invalidFields}` },
         { status: 400 }
@@ -54,8 +55,11 @@ export async function POST(request: Request) {
 
     if (!verifiedAccount?.isVerified)
       return NextResponse.json(
-        { message: "email verification unsuccessful" },
-        { status: 500 }
+        {
+          message:
+            "email verification unsuccessful, 'cause user with email not found",
+        },
+        { status: 404 }
       );
 
     return NextResponse.json(

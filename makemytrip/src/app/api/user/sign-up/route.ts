@@ -27,9 +27,14 @@ export async function POST(request: Request) {
 
     const invalidFields = fieldValidator(validFields, requestedFields);
 
-    if (parseInt(invalidFields.length) > 0)
+    if (
+      invalidFields.invalidFields.length > 0 ||
+      invalidFields.missingFields.length > 0
+    )
       return NextResponse.json(
-        { message: `${invalidFields}` },
+        {
+          message: `${invalidFields.invalidFields}||${invalidFields.missingFields}`,
+        },
         { status: 400 }
       );
 
@@ -38,11 +43,12 @@ export async function POST(request: Request) {
     if (userExists)
       return NextResponse.json(
         { message: `user already exists with this username and email` },
-        { status: 401 }
+        { status: 409 }
       );
 
     let otp = otpGenerator();
     let userId = randomUUID();
+
     let hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await User.create({

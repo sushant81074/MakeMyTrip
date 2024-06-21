@@ -19,8 +19,11 @@ export async function POST(request: Request) {
     const validFields = ["hotelEmail", "otp"];
 
     const invalidFields = fieldValidator(validFields, requestedFields);
-    console.log(invalidFields, typeof invalidFields);
-    if (invalidFields.length)
+
+    if (
+      invalidFields.invalidFields.length > 0 ||
+      invalidFields.missingFields.length > 0
+    )
       return NextResponse.json(
         { message: `${invalidFields}` },
         { status: 400 }
@@ -58,8 +61,12 @@ export async function POST(request: Request) {
 
     if (!verifiedHotel?.isVerified)
       return NextResponse.json(
-        { message: "hotel verification unsuccessful", success: false },
-        { status: 500 }
+        {
+          message:
+            "hotel verification unsuccessful, 'cause hotel with email not found",
+          success: false,
+        },
+        { status: 404 }
       );
 
     return NextResponse.json(
