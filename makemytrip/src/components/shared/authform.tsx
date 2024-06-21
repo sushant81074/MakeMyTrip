@@ -62,8 +62,7 @@ const AuthForm = ({ type }: { type: "login" | "signup" }) => {
         // Handle response
         const response = await res.json();
 
-        console.log("Response:", response);
-        
+        // console.log("Response:", response);
 
         if (!res.ok) {
           // handleHTTPError(res.status, response.message);
