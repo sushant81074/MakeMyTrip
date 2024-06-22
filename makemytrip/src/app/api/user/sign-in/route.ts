@@ -8,7 +8,7 @@ import { fieldValidator } from "@/utils/fieldValidator";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  dbConnect();
+  await dbConnect();
   try {
     if (request.method !== "POST")
       return NextResponse.json(
@@ -37,6 +37,23 @@ export async function POST(request: Request) {
     if (!user)
       return NextResponse.json(
         { message: "user with email doesn't exists" },
+        { status: 400 }
+      );
+
+    if (!user.isVerified)
+      return NextResponse.json(
+        {
+          message: "user with email isn't verified, please verify your account",
+        },
+        { status: 400 }
+      );
+
+    if (!user.isActive)
+      return NextResponse.json(
+        {
+          message:
+            "user with email is inActive, please reactivate your account",
+        },
         { status: 400 }
       );
 
