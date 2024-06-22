@@ -1,11 +1,9 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/model/user.model";
-import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
-import { authOptions } from "../../auth/[...nextauth]/options";
-import { getToken } from "next-auth/jwt";
+import { tokenDecrypter } from "@/helper/tokenDecrypter.helper";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   await dbConnect();
 
   try {
@@ -15,32 +13,20 @@ export async function GET(request: Request) {
         { status: 405 }
       );
 
-    let session = await getServerSession(authOptions);
+    const tokenData: any = tokenDecrypter(request);
 
-    let token = await getToken({
-      //@ts-ignore
-      req: request,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
+    const user = await User.findById(tokenData?._id).select(
+      "-__v -password -_id -updatedAt"
+    );
 
-    if ((!session || !session?.user?._id) && (!token || !token?._id))
+    if (!user)
       return NextResponse.json(
-        { message: "unauthenticated user" },
-        { status: 401 }
-      );
-
-    const currentUser = await User.findById(
-      session?.user?._id || token?._id
-    ).select("-password -_id -__v -updatedAt");
-
-    if (!currentUser)
-      return NextResponse.json(
-        { message: "user not found", success: false, currentUser },
+        { message: "current user not found", success: false },
         { status: 404 }
       );
 
     return NextResponse.json(
-      { message: "user fetched successfully", success: true, currentUser },
+      { message: "user fetched successfully", success: true, user },
       { status: 200 }
     );
   } catch (error: any) {
