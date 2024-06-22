@@ -13,11 +13,13 @@ export async function GET(request: NextRequest) {
         { status: 405 }
       );
 
-    const tokenData: any = tokenDecrypter(request);
+    const tokenData: any = await tokenDecrypter(request);
+    console.log("tokenData", tokenData);
 
     const user = await User.findById(tokenData?._id).select(
       "-__v -password -_id -updatedAt"
     );
+    console.log("user", user);
 
     if (!user)
       return NextResponse.json(
