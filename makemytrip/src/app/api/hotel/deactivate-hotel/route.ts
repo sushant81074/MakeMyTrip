@@ -1,6 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
 import Hotel from "@/model/hotels.model";
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 // what we want to do is first we'll check that if the user is authorised and what not basic validations
@@ -22,22 +21,10 @@ async function PATCH(request: Request) {
         { status: 405 }
       );
 
-    const session = await getServerSession();
-
-    if (!session || session?.user?._id)
-      return NextResponse.json(
-        { message: "unauthorized user" },
-        { status: 401 }
-      );
-
-    if (session?.user?.role !== "HOTEL-ADMIN")
-      return NextResponse.json(
-        { message: "forbidden access/ invalid user role" },
-        { status: 403 }
-      );
+    const id = "";
 
     const deacitvateUser = await Hotel.findByIdAndUpdate(
-      session?.user?._id,
+      id,
       {
         $set: {
           isActive: false,

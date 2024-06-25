@@ -4,6 +4,7 @@ interface HotelInterface extends Document {
   name: string;
   hotelId: string;
   hotelEmail: string;
+  hotelPassword: string;
   owner: string;
   manager: string;
   city: string;
@@ -40,6 +41,12 @@ const hotelSchema: mongoose.Schema<HotelInterface> = new mongoose.Schema(
       trim: true,
     },
     hotelEmail: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+    },
+    hotelPassword: {
       type: String,
       required: true,
       trim: true,

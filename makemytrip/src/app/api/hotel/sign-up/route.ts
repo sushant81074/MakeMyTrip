@@ -1,5 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import Hotel from "@/model/hotels.model";
+import bcrypt from "bcryptjs";
 import { fieldValidator } from "@/utils/fieldValidator";
 import { MailOptions } from "@/utils/mailOptions";
 import transporter from "@/utils/nodemailer";
@@ -10,6 +11,7 @@ import { NextResponse } from "next/server";
 type HotelData = {
   name: string;
   hotelEmail: string;
+  hotelPassword: string;
   owner: string;
   manager: string;
   city: string;
@@ -30,6 +32,7 @@ type HotelData = {
 const validFields = [
   "name",
   "hotelEmail",
+  "hotelPassword",
   "owner",
   "manager",
   "city",
@@ -82,6 +85,9 @@ export async function POST(request: Request) {
 
     let otp = otpGenerator();
     let hotelId = randomUUID();
+    let hashedPassword = await bcrypt.hash(hotelData.hotelPassword, 10);
+
+    hotelData.hotelPassword = hashedPassword;
 
     const hotel = await Hotel.create({ ...hotelData, hotelId, otp });
     if (!hotel)

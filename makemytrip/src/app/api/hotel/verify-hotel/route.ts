@@ -1,6 +1,8 @@
 import dbConnect from "@/lib/dbConnect";
 import Hotel from "@/model/hotels.model";
 import { fieldValidator } from "@/utils/fieldValidator";
+import { MailOptions } from "@/utils/mailOptions";
+import transporter from "@/utils/nodemailer";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -68,6 +70,15 @@ export async function POST(request: Request) {
         },
         { status: 404 }
       );
+
+    const mailOptions: MailOptions = {
+      from: process.env.EMAIL || "",
+      to: verifiedHotel.hotelEmail,
+      subject: "Hotel Verification Successful",
+      text: `Name: ${verifiedHotel.name} with Email: ${verifiedHotel.hotelEmail} has been verified and activated successfully`,
+    };
+
+    await transporter.sendMail(mailOptions);
 
     return NextResponse.json(
       {
