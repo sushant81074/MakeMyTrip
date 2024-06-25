@@ -48,3 +48,6 @@ export const handleGenericError = (
   setLoading(false);
   toast.error(error.message || "An error occurred, please try again");
 };
+
+
+  
