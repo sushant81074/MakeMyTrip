@@ -1,6 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/model/user.model";
-import { fieldValidator } from "@/utils/fieldValidator";
+import { fieldValidator } from "@/helper/fieldValidator";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {

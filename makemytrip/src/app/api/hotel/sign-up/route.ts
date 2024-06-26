@@ -1,12 +1,13 @@
 import dbConnect from "@/lib/dbConnect";
 import Hotel from "@/model/hotels.model";
 import bcrypt from "bcryptjs";
-import { fieldValidator } from "@/utils/fieldValidator";
+import { fieldValidator } from "@/helper/fieldValidator";
 import { MailOptions } from "@/utils/mailOptions";
 import transporter from "@/utils/nodemailer";
 import otpGenerator from "@/utils/otpGenerator";
 import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
+import { ApiError } from "next/dist/server/api-utils";
 
 type HotelData = {
   name: string;
@@ -55,10 +56,7 @@ export async function POST(request: Request) {
 
   try {
     if (request.method !== "POST")
-      return NextResponse.json(
-        { message: "invalid request method" },
-        { status: 405 }
-      );
+      throw new ApiError(405, "invalid request method");
 
     const hotelData: HotelData = await request.json();
 
@@ -114,7 +112,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       { message: error.message || "error occured", success: false },
-      { status: error.status || 500 }
+      { status: error.statusCode || 500 }
     );
   }
 }

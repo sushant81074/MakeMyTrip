@@ -2,18 +2,19 @@ import dbConnect from "@/lib/dbConnect";
 import User from "@/model/user.model";
 import { tokenDecrypter } from "@/helper/tokenDecrypter.helper";
 import { NextRequest, NextResponse } from "next/server";
+import { ApiError } from "next/dist/server/api-utils";
 
 export async function GET(request: NextRequest) {
   await dbConnect();
 
   try {
     if (request.method !== "GET")
-      return NextResponse.json(
-        { message: "invalid request method" },
-        { status: 405 }
-      );
+      throw new ApiError(405, "invalid request method");
 
     const tokenData: any = await tokenDecrypter(request);
+
+    if (!tokenData || !tokenData?._id)
+      throw new ApiError(401, "unauthorized user");
 
     const user = await User.findById(tokenData?._id).select(
       "-__v -password -_id -updatedAt"
@@ -34,7 +35,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(
       { message: error.message || "error occured", success: false },
-      { status: error.status || 500 }
+      { status: error.statusCode || 500 }
     );
   }
 }

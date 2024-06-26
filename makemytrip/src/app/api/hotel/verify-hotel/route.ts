@@ -1,8 +1,9 @@
 import dbConnect from "@/lib/dbConnect";
 import Hotel from "@/model/hotels.model";
-import { fieldValidator } from "@/utils/fieldValidator";
+import { fieldValidator } from "@/helper/fieldValidator";
 import { MailOptions } from "@/utils/mailOptions";
 import transporter from "@/utils/nodemailer";
+import { ApiError } from "next/dist/server/api-utils";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -10,10 +11,7 @@ export async function POST(request: Request) {
 
   try {
     if (request.method !== "POST")
-      return NextResponse.json(
-        { message: "invalid request method" },
-        { status: 405 }
-      );
+      throw new ApiError(405, "invalid request method");
 
     const { hotelEmail, otp } = await request.json();
 
@@ -95,7 +93,7 @@ export async function POST(request: Request) {
         message: error.message || "error verifing user account",
         success: false,
       },
-      { status: error.status || 500 }
+      { status: error.statusCode || 500 }
     );
   }
 }

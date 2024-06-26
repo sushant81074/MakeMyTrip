@@ -1,5 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import Hotel from "@/model/hotels.model";
+import { ApiError } from "next/dist/server/api-utils";
 import { NextResponse } from "next/server";
 
 // what we want to do is first we'll check that if the user is authorised and what not basic validations
@@ -16,10 +17,7 @@ async function PATCH(request: Request) {
 
   try {
     if (request.method !== "PATCH")
-      return NextResponse.json(
-        { message: "invalid request method" },
-        { status: 405 }
-      );
+      throw new ApiError(405, "invalid request method");
 
     const id = "";
 

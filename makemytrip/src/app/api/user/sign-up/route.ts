@@ -2,7 +2,7 @@ import User from "@/model/user.model";
 import dbConnect from "@/lib/dbConnect";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { fieldValidator } from "@/utils/fieldValidator";
+import { fieldValidator } from "@/helper/fieldValidator";
 import { MailOptions } from "@/utils/mailOptions";
 import transporter from "@/utils/nodemailer";
 import otpGenerator from "@/utils/otpGenerator";
