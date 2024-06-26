@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { revalidateTag } from "@/actions/user.actions";
 
 const validateSignUpSchema = z.object({
   email: z.string().email(),
@@ -95,6 +96,7 @@ const AuthForm = ({ type }: { type: "login" | "signup" }) => {
         toast.success(response.message);
         if (type === "login") {
           router.push("/");
+          revalidateTag("/", "page");
         } else {
           router.push("/verify");
         }
