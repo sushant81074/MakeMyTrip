@@ -20,12 +20,20 @@ import {
 } from "@/components/ui/sheet";
 import { userDeatils } from "@/actions/user.actions";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import Link from "next/link";
+import { JoinAt } from "@/lib/utils";
+import { Calendar, Contact, PhoneCall, User } from "lucide-react";
+import { Separator } from "../ui/separator";
+import Logout from "./logout";
 
 const RightSideBar = async () => {
   const userToken = cookies().get("token");
 
   const data = await userDeatils(userToken);
+
+  if (!data) {
+    return;
+  }
 
   return (
     <div className="flex gap-5 items-center">
@@ -74,16 +82,79 @@ const RightSideBar = async () => {
                   height={40}
                 />
               </PopoverTrigger>
-              <PopoverContent className="w-80 h-52">Content</PopoverContent>
+              <PopoverContent className="w-72 py-1.5">
+                <div>
+                  <p className="flex gap-1 items-center">
+                    <User className="w-4 h-4" />
+                    {data.user.username}
+                  </p>
+                  <p className="text-xs">{data.user.email}</p>
+
+                  <div className="w-full flex flex-col my-2">
+                    <Button
+                      variant={"ghost"}
+                      size={"sm"}
+                      className="w-full focus-visible:ring-0"
+                    >
+                      Account Settings
+                    </Button>
+
+                    <Logout userToken={userToken} />
+                  </div>
+
+                  <Separator className="my-2" />
+
+                  <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-1 text-xs justify-between items-center">
+                      {[
+                        {
+                          value: "Join At",
+                          icon: (
+                            <span className="pl-1 flex gap-1 items-center">
+                              <Calendar className="w-3 h-3" />
+                              {JoinAt(data.user.createdAt)}
+                            </span>
+                          ),
+                        },
+                        {
+                          value: "Contact No.",
+                          icon: (
+                            <span className="pl-1 flex gap-1 items-center">
+                              <PhoneCall className="w-4 h-4" />
+                              {data.user.contactNo}
+                            </span>
+                          ),
+                        },
+                        {
+                          value: "Role",
+                          icon: (
+                            <span className="p-1 bg-green-400 text-white text-xs rounded-full flex gap-1 items-center">
+                              {data.user.role}
+                            </span>
+                          ),
+                        },
+                      ].map((item) => (
+                        <div
+                          key={item.value}
+                          className="w-full flex text-xs justify-between items-center"
+                        >
+                          <p>{item.value} :</p> {item.icon}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </PopoverContent>
             </Popover>
           </div>
         ) : (
           <Button
+            asChild
             size={"sm"}
             variant={"outline"}
             className="rounded-full text-slate-500"
           >
-            Sign-In
+            <Link href="/sign-in">Sign-In</Link>
           </Button>
         )}
 
