@@ -1,16 +1,14 @@
 import Hotel from "@/model/hotels.model";
-import { fieldValidator } from "@/utils/fieldValidator";
+import { fieldValidator } from "@/helper/fieldValidator";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { ApiError } from "next/dist/server/api-utils";
 
 async function POST(request: NextRequest) {
   try {
     if (request.method !== "POST")
-      return NextResponse.json(
-        { message: "invalid request method", success: false },
-        { status: 405 }
-      );
+      throw new ApiError(405, "invalid request method");
 
     const { name, hotelEmail, password } = await request.json();
 

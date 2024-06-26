@@ -4,7 +4,7 @@ import User from "@/model/user.model";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-import { fieldValidator } from "@/utils/fieldValidator";
+import { fieldValidator } from "@/helper/fieldValidator";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
