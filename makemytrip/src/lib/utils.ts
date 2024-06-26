@@ -1,4 +1,4 @@
-import { type ClassValue, clsx } from "clsx"
+import { type ClassValue, clsx } from "clsx";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
@@ -49,5 +49,17 @@ export const handleGenericError = (
   toast.error(error.message || "An error occurred, please try again");
 };
 
+export const JoinAt = (date: string) => {
+  // 2024-06-26T18:08:54.797Z => 26-06-2024 write a logic to convert this date to 26-06-2024 format
 
-  
+  const day = date.substring(0, 2);
+  const month = date.split("-")[1]; // getMonth() is zero-based
+  const year = date.split("-")[0];
+  return `${day}-${month}-${year}`;
+  // const year = date.split("-")[0];
+  // const month = date.split("-")[1];
+  // const day = date.split("-")[2];
+
+  // const newDate = `${day}-${month}-${year}`;
+  // return newDate;
+};
