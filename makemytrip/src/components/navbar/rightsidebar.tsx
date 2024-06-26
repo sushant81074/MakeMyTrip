@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "../ui/button";
-
 import avtar from "@/public/avtar.gif";
 import burger from "@/public/burger.svg";
 import Image from "next/image";
@@ -19,8 +18,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { userDeatils } from "@/actions/user.actions";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-const RightSideBar = () => {
+const RightSideBar = async () => {
+  const userToken = cookies().get("token");
+
+  const data = await userDeatils(userToken);
+
   return (
     <div className="flex gap-5 items-center">
       <ul className="flex gap-2">
@@ -40,7 +46,9 @@ const RightSideBar = () => {
         ].map((item) => (
           <li key={item.name}>
             <Button
+              // @ts-ignore
               size={item.size}
+              // @ts-ignore
               variant={item.variant}
               className={`rounded-full text-sm ${item.class}`}
             >
@@ -51,23 +59,33 @@ const RightSideBar = () => {
       </ul>
 
       <div className="flex items-center gap-3">
-        <div>
-          <Popover>
-            <PopoverTrigger
-              asChild
-              className="rounded-full bg-transparent hover:bg-slate-100 cursor-pointer"
-            >
-              <Image
-                src={avtar}
-                alt="bell"
-                className="object-cover"
-                width={40}
-                height={40}
-              />
-            </PopoverTrigger>
-            <PopoverContent className="w-80 h-52">Content</PopoverContent>
-          </Popover>
-        </div>
+        {userToken ? (
+          <div>
+            <Popover>
+              <PopoverTrigger
+                asChild
+                className="rounded-full bg-transparent hover:bg-slate-100 cursor-pointer"
+              >
+                <Image
+                  src={avtar}
+                  alt="bell"
+                  className="object-cover"
+                  width={40}
+                  height={40}
+                />
+              </PopoverTrigger>
+              <PopoverContent className="w-80 h-52">Content</PopoverContent>
+            </Popover>
+          </div>
+        ) : (
+          <Button
+            size={"sm"}
+            variant={"outline"}
+            className="rounded-full text-slate-500"
+          >
+            Sign-In
+          </Button>
+        )}
 
         {/* Mobile sheet */}
         <div className="block sm:hidden">

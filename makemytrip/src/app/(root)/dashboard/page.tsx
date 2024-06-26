@@ -1,26 +1,16 @@
+import { userDeatils } from "@/actions/user.actions";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const DashboardPage = async () => {
   const userToken = cookies().get("token");
+  // console.log(userToken);
 
   if (!userToken) {
-    return <div>Unauthorized</div>;
+    return redirect("/sign-in");
   }
 
-  const response = await fetch("http://localhost:3000/api/user/current-user", {
-    method: "GET",
-    headers: {
-      cookie: `token=${userToken?.value}`, // Include token in cookie
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`Error: ${response.statusText}`);
-  }
-
-  const data = await response.json();
-  // console.log("API response:", data);
+  const data = await userDeatils(userToken);
 
   return <div>DashboardPage: {JSON.stringify(data)} </div>;
 };
