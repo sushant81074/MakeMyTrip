@@ -4,16 +4,19 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { ApiError } from "next/dist/server/api-utils";
+import dbConnect from "@/lib/dbConnect";
 
-async function POST(request: NextRequest) {
+export async function POST(request: NextRequest) {
+  await dbConnect();
+
   try {
     if (request.method !== "POST")
       throw new ApiError(405, "invalid request method");
 
-    const { name, hotelEmail, password } = await request.json();
+    const { name, hotelEmail, hotelPassword } = await request.json();
 
-    const validFields = ["name", "hotelEmail", "password"];
-    const requestedFields = { name, hotelEmail, password };
+    const validFields = ["name", "hotelEmail", "hotelPassword"];
+    const requestedFields = { name, hotelEmail, hotelPassword };
 
     const { invalidFields, missingFields } = fieldValidator(
       validFields,
@@ -39,8 +42,8 @@ async function POST(request: NextRequest) {
       );
 
     const isPasswordCorrect = await bcrypt.compare(
-      password,
-      hotelExists.password
+      hotelPassword,
+      hotelExists.hotelPassword
     );
 
     if (!isPasswordCorrect)
@@ -69,7 +72,7 @@ async function POST(request: NextRequest) {
       { status: 200 }
     );
 
-    response.cookies.set("hotelAccessToken", hotelAccessToken, {
+    response.cookies.set("token", hotelAccessToken, {
       httpOnly: true,
     });
 

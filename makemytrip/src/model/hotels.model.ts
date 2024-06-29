@@ -50,7 +50,6 @@ const hotelSchema: mongoose.Schema<HotelInterface> = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      lowercase: true,
     },
     owner: {
       type: String,

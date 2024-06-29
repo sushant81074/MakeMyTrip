@@ -1,13 +1,33 @@
 import mongoose from "mongoose";
 
-interface RoomTypeInterface extends Document {
+const pricingSchema = new mongoose.Schema({
+  basePrice: {
+    type: Number,
+    required: true,
+  },
+  discounts: [
+    {
+      name: { type: String, required: true },
+      percentage: { type: Number, required: true, min: 0, max: 100 },
+      applicableDates: {
+        startDate: { type: Date, required: true },
+        endDate: { type: Date, required: true },
+      },
+    },
+  ],
+});
+
+export const Pricing =
+  mongoose.models.Pricing || mongoose.model("Pricing", pricingSchema);
+
+export interface RoomTypeInterface extends Document {
+  name: string;
   fromRoomNumber: number;
   toRoomNumber: number;
   roomTypeId: string;
   averageRating: number;
   hotelRef: mongoose.Schema.Types.ObjectId;
   suite: string;
-  currentlyAssignedGuest: mongoose.Schema.Types.ObjectId;
   maximumOccupancy: number;
   bedSize: string;
   roomArea: number;
@@ -28,6 +48,11 @@ interface RoomTypeInterface extends Document {
 
 const roomTypeSchema: mongoose.Schema<RoomTypeInterface> = new mongoose.Schema(
   {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     fromRoomNumber: {
       type: Number,
       required: true,
@@ -89,7 +114,6 @@ const roomTypeSchema: mongoose.Schema<RoomTypeInterface> = new mongoose.Schema(
       {
         name: { type: String, required: true },
         description: { type: String },
-        iconUrl: { type: String },
       },
     ],
     img: [
@@ -99,8 +123,20 @@ const roomTypeSchema: mongoose.Schema<RoomTypeInterface> = new mongoose.Schema(
       },
     ],
     pricing: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Pricing",
+      basePrice: {
+        type: Number,
+        required: true,
+      },
+      discounts: [
+        {
+          name: { type: String },
+          percentage: { type: Number, min: 0, max: 100 },
+          applicableDates: {
+            startDate: { type: Date },
+            endDate: { type: Date },
+          },
+        },
+      ],
     },
     minStayInNights: {
       type: Number,
@@ -123,23 +159,3 @@ const RoomType =
   mongoose.connection.model<RoomTypeInterface>("RoomType", roomTypeSchema);
 
 export default RoomType;
-
-const pricingSchema = new mongoose.Schema({
-  basePrice: {
-    type: Number,
-    required: true,
-  },
-  discounts: [
-    {
-      name: { type: String, required: true },
-      percentage: { type: Number, required: true, min: 0, max: 100 },
-      applicableDates: {
-        startDate: { type: Date, required: true },
-        endDate: { type: Date, required: true },
-      },
-    },
-  ],
-});
-
-export const Pricing =
-  mongoose.models.Pricing || mongoose.model("Pricing", pricingSchema);
