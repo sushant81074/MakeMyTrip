@@ -10,7 +10,7 @@ const Logout = ({ userToken }: userToken) => {
       size={"sm"}
       variant={"ghost"}
       className="w-full focus-visible ring-0"
-      onClick={() => SignOut(userToken)}
+      onClick={async () => await SignOut(userToken)}
     >
       Log-out
     </Button>

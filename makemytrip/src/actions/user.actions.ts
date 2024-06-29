@@ -68,13 +68,10 @@ export async function SignOut(userToken: userToken | undefined) {
 
     console.log("data", data);
 
-    if (data.success === true) {
-      cookies().delete("token");
-
-      toast.success(`${data.message}`);
+    if (data.success == true) {
+      cookies().delete(`${userToken?.name}`);
+      toast.success("Logout successfully");
     }
-
-    return redirect("/sign-in");
   } catch (error: any) {
     console.log("Error: ", error.message);
   }

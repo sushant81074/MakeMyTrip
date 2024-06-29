@@ -32,7 +32,16 @@ const RightSideBar = async () => {
   const data = await userDeatils(userToken);
 
   if (!data) {
-    return;
+    return (
+      <Button
+        asChild
+        size={"sm"}
+        variant={"outline"}
+        className="rounded-full text-slate-500"
+      >
+        <Link href="/sign-in">Sign-In</Link>
+      </Button>
+    );
   }
 
   return (
