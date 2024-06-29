@@ -67,7 +67,9 @@ export async function POST(request: Request) {
       invalidFields.missingFields.length > 0
     )
       return NextResponse.json(
-        { message: `${invalidFields}` },
+        {
+          message: `${invalidFields.invalidFields},${invalidFields.missingFields}`,
+        },
         { status: 400 }
       );
 
