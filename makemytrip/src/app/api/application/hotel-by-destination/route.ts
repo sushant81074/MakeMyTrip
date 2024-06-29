@@ -1,10 +1,13 @@
 import { checkValidUser } from "@/helper/checkValidUser";
 import { tokenDecrypter } from "@/helper/tokenDecrypter.helper";
+import dbConnect from "@/lib/dbConnect";
 import Hotel from "@/model/hotels.model";
 import { ApiError } from "next/dist/server/api-utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
+  await dbConnect();
+
   try {
     if (request.method !== "GET")
       throw new ApiError(405, "invalid request method");
@@ -23,8 +26,7 @@ export async function GET(request: NextRequest) {
     console.log(state, city);
 
     const hotelByDestination = await Hotel.find({
-      state,
-      city,
+      $or: [{ state }, { city }],
       isActive: true,
       isVerified: true,
     }).select(
