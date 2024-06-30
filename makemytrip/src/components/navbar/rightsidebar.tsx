@@ -65,6 +65,7 @@ const RightSideBar = async () => {
             <Button
               // @ts-ignore
               size={item.size}
+              asChild
               // @ts-ignore
               variant={item.variant}
               className={`rounded-full text-sm ${item.class}`}

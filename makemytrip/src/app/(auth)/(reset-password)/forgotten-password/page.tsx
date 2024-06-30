@@ -41,7 +41,6 @@ const page = () => {
       }
 
       if (data.success === true) {
-        console.log(data);
         toast.success(data.message);
         setLoading(false);
         router.push("/set-forgotten-password");
