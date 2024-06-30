@@ -8,6 +8,8 @@ interface RoomInterface extends Document {
   roomType: mongoose.Schema.Types.ObjectId;
   hotelRef: mongoose.Schema.Types.ObjectId;
   currentlyAssignedGuest: mongoose.Schema.Types.ObjectId;
+  assignedFromDate: Date;
+  assignedToDate: Date;
   currentAvailabilityStatus: string;
   availabilitydates: {
     available: {
@@ -45,6 +47,12 @@ const roomSchema: mongoose.Schema<RoomInterface> = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    assignedFromDate: {
+      type: Date,
+    },
+    assignedToDate: {
+      type: Date,
+    },
     currentAvailabilityStatus: {
       type: String,
       enum: ["AVAILABLE", "NOT_AVAILABLE"],
@@ -53,14 +61,15 @@ const roomSchema: mongoose.Schema<RoomInterface> = new mongoose.Schema(
     availabilitydates: {
       available: [
         {
-          startDate: { type: Date, default: Date.now() },
-          endDate: { type: Date, default: Date.now() + 86400 },
+          startDate: { type: Date, default: () => new Date() },
+          endDate: { type: Date, default: () => new Date() },
         },
       ],
       unavailable: [
         {
-          startDate: { type: Date, default: Date.now() + 86400 },
-          endDate: { type: Date, default: Date.now() + 86400 * 2 },
+          startDate: { type: Date, default: () => new Date() },
+          endDate: { type: Date, default: () => new Date() },
+          guest: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         },
       ],
     },

@@ -55,9 +55,6 @@ export async function POST(request: NextRequest) {
     if (!tokenData || !tokenData?._id)
       throw new ApiError(401, "Unauthorized user");
 
-    if (tokenData.role !== "HOTEL-ADMIN")
-      throw new ApiError(403, "forbidden to make this request");
-
     const roomTypeData: RoomTypeData = await request.json();
 
     const { invalidFields, missingFields } = fieldValidator(
@@ -91,8 +88,11 @@ export async function POST(request: NextRequest) {
     const roomType = await RoomType.create({
       roomTypeId,
       hotelRef: hotelExists?._id,
+      hotelId: hotelExists?.hotelId,
       ...roomTypeData,
     });
+
+    console.log(roomType);
 
     if (!roomType) throw new ApiError(500, "Room type creation unsuccessful");
 

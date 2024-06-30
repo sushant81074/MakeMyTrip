@@ -27,6 +27,7 @@ export interface RoomTypeInterface extends Document {
   roomTypeId: string;
   averageRating: number;
   hotelRef: mongoose.Schema.Types.ObjectId;
+  hotelId: string;
   suite: string;
   maximumOccupancy: number;
   bedSize: string;
@@ -53,14 +54,6 @@ const roomTypeSchema: mongoose.Schema<RoomTypeInterface> = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    // fromRoomNumber: {
-    //   type: Number,
-    //   required: true,
-    // },
-    // toRoomNumber: {
-    //   type: Number,
-    //   required: true,
-    // },
     roomTypeId: {
       type: String,
       required: true,
@@ -74,6 +67,10 @@ const roomTypeSchema: mongoose.Schema<RoomTypeInterface> = new mongoose.Schema(
     hotelRef: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Hotel",
+      required: true,
+    },
+    hotelId: {
+      type: String,
       required: true,
     },
     suite: {
