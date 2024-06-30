@@ -49,6 +49,12 @@ export async function POST(request: NextRequest) {
     if (!hotelExists)
       throw new ApiError(404, "hotel not found that you're assigning rooms to");
 
+    if (!hotelExists.isActive || !hotelExists.isVerified)
+      throw new ApiError(
+        403,
+        `forbidden access to hotel resources as hotel isVerified:${hotelExists.isVerified} and isAcitve:${hotelExists.isAcitve}`
+      );
+
     const roomTypeExists = await RoomType.findOne({
       name: roomData.roomTypeName,
       hotelRef: hotelExists?._id,
