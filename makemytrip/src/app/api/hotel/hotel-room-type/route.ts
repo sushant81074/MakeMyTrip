@@ -10,8 +10,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 type RoomTypeData = {
   name: string;
-  fromRoomNumber: number;
-  toRoomNumber: number;
+  // fromRoomNumber: number;
+  // toRoomNumber: number;
   averageRating: number;
   suite: string;
   maximumOccupancy: number;
@@ -29,8 +29,8 @@ type RoomTypeData = {
 
 const validFields = [
   "name",
-  "fromRoomNumber",
-  "toRoomNumber",
+  // "fromRoomNumber",
+  // "toRoomNumber",
   "averageRating",
   "suite",
   "maximumOccupancy",
@@ -54,6 +54,9 @@ export async function POST(request: NextRequest) {
     const tokenData: any = await tokenDecrypter(request);
     if (!tokenData || !tokenData?._id)
       throw new ApiError(401, "Unauthorized user");
+
+    if (tokenData.role !== "HOTEL-ADMIN")
+      throw new ApiError(403, "forbidden to make this request");
 
     const roomTypeData: RoomTypeData = await request.json();
 

@@ -53,14 +53,14 @@ const roomSchema: mongoose.Schema<RoomInterface> = new mongoose.Schema(
     availabilitydates: {
       available: [
         {
-          startDate: { type: Date, required: true },
-          endDate: { type: Date, required: true },
+          startDate: { type: Date, default: Date.now() },
+          endDate: { type: Date, default: Date.now() + 86400 },
         },
       ],
       unavailable: [
         {
-          startDate: { type: Date, required: true },
-          endDate: { type: Date, required: true },
+          startDate: { type: Date, default: Date.now() + 86400 },
+          endDate: { type: Date, default: Date.now() + 86400 * 2 },
         },
       ],
     },

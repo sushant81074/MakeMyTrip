@@ -22,8 +22,8 @@ export const Pricing =
 
 export interface RoomTypeInterface extends Document {
   name: string;
-  fromRoomNumber: number;
-  toRoomNumber: number;
+  // fromRoomNumber: number;
+  // toRoomNumber: number;
   roomTypeId: string;
   averageRating: number;
   hotelRef: mongoose.Schema.Types.ObjectId;
@@ -53,14 +53,14 @@ const roomTypeSchema: mongoose.Schema<RoomTypeInterface> = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    fromRoomNumber: {
-      type: Number,
-      required: true,
-    },
-    toRoomNumber: {
-      type: Number,
-      required: true,
-    },
+    // fromRoomNumber: {
+    //   type: Number,
+    //   required: true,
+    // },
+    // toRoomNumber: {
+    //   type: Number,
+    //   required: true,
+    // },
     roomTypeId: {
       type: String,
       required: true,
