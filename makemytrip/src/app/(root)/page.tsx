@@ -1,24 +1,5 @@
-import { cookies } from "next/headers";
 import Image from "next/image";
-
 export default async function Home() {
-  const userToken = cookies().get("token");
-
-  // const res = await fetch(
-  //   "http://localhost:3000/api/application/hotel-by-destination?city=jaipur",
-  //   {
-  //     method: "GET",
-  //     headers: {
-  //       cookie: `token=${userToken?.value}`,
-  //       "Content-Type": "application/json",
-  //     },
-  //   }
-  // );
-
-  // const data = await res.json();
-
-  // console.log("data", data);
-
   return (
     <main className="py-3 px-6 h-full">
       <section className="bg-white">

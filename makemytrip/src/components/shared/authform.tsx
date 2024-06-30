@@ -13,6 +13,7 @@ import { z } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { revalidateTag } from "@/actions/user.actions";
+import Link from "next/link";
 
 const validateSignUpSchema = z.object({
   email: z.string().email(),
@@ -168,9 +169,13 @@ const AuthForm = ({ type }: { type: "login" | "signup" }) => {
         </>
       )}
 
-      <p className="text-xs self-end text-neutral-400 font-bold underline cursor-pointer">
-        Forgot Your Password ?
-      </p>
+      {type === "login" && (
+        <Link className="self-end" href="/forgotten-password">
+          <p className="text-xs text-neutral-400 font-bold underline cursor-pointer">
+            Forgot Your Password ?
+          </p>
+        </Link>
+      )}
 
       <Button
         type="submit"
