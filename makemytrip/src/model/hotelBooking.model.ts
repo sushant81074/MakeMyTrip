@@ -6,11 +6,13 @@ interface HotelBookingInterface extends Document {
   roomId: string;
   roomTypeId: string;
   hotelId: string;
-  currentGuestId: string;
+  guestId: string;
   roomRef: mongoose.Schema.Types.ObjectId;
   roomTypeRef: mongoose.Schema.Types.ObjectId;
   hotelRef: mongoose.Schema.Types.ObjectId;
-  UserRef: mongoose.Schema.Types.ObjectId;
+  userRef: mongoose.Schema.Types.ObjectId;
+  fromDate: Date;
+  toDate: Date;
 }
 
 const hotelBookingSchema: mongoose.Schema<HotelBookingInterface> =
@@ -36,7 +38,7 @@ const hotelBookingSchema: mongoose.Schema<HotelBookingInterface> =
         type: String,
         required: true,
       },
-      currentGuestId: {
+      guestId: {
         type: String,
         required: true,
       },
@@ -55,9 +57,17 @@ const hotelBookingSchema: mongoose.Schema<HotelBookingInterface> =
         ref: "Hotel",
         required: true,
       },
-      UserRef: {
+      userRef: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        required: true,
+      },
+      fromDate: {
+        type: Date,
+        required: true,
+      },
+      toDate: {
+        type: Date,
         required: true,
       },
     },

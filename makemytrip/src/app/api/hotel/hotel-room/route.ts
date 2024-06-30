@@ -55,6 +55,12 @@ export async function POST(request: NextRequest) {
         `forbidden access to hotel resources as hotel isVerified:${hotelExists.isVerified} and isAcitve:${hotelExists.isAcitve}`
       );
 
+    if (hotelExists.totalRooms < (await Room.countDocuments()))
+      throw new ApiError(
+        400,
+        "total registered room number exceded to create new rooms update the totalRooms in Hotel"
+      );
+
     const roomTypeExists = await RoomType.findOne({
       name: roomData.roomTypeName,
       hotelRef: hotelExists?._id,
@@ -104,7 +110,10 @@ export async function POST(request: NextRequest) {
     console.error("error occured :", error?.message);
 
     return NextResponse.json(
-      { message: error?.message || "internal server error", success: false },
+      {
+        message: error?.message || "internal server error",
+        success: false,
+      },
       { status: error?.statusCode || 500 }
     );
   }
