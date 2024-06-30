@@ -86,9 +86,17 @@ const AuthForm = ({ type }: { type: "login" | "signup" }) => {
 
       // Handle response
       const response = await res?.json();
+      console.log(response);
 
       if (!res?.ok) {
         // @ts-ignore
+        if (
+          response.message ===
+          "user with email isn't verified, please verify your account"
+        ) {
+          toast.error(response.message);
+          return router.push("/resend-verification-otp");
+        }
         handleHTTPError(res.status, response.message);
         return;
       }
