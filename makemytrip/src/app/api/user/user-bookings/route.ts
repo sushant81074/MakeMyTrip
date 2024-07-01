@@ -161,3 +161,44 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export async function GET(request: NextRequest) {
+  await dbConnect();
+  try {
+    if (request.method !== "GET")
+      throw new ApiError(405, "invalid request method");
+
+    const tokenData: any = await tokenDecrypter(request);
+
+    if (!tokenData || !tokenData?._id)
+      throw new ApiError(401, "unauthorized user");
+
+    const { valid, user } = await checkValidUser(tokenData);
+
+    if (!valid) throw new ApiError(401, "invalid user credentials");
+
+    const allUserBookings = await HotelBooking.find({ userRef: user?._id });
+
+    if (!allUserBookings.length)
+      throw new ApiError(200, "look's like you have no bookings");
+
+    return NextResponse.json(
+      {
+        message: "all user bookings fetched successfully",
+        allUserBookings,
+        success: true,
+      },
+      { status: 200 }
+    );
+  } catch (error: any) {
+    console.error("error occured :", error?.message);
+
+    return NextResponse.json(
+      {
+        message: error?.message || "internal server error",
+        success: false,
+      },
+      { status: error?.statusCode || 500 }
+    );
+  }
+}
