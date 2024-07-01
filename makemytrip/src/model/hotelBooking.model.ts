@@ -13,6 +13,7 @@ interface HotelBookingInterface extends Document {
   userRef: mongoose.Schema.Types.ObjectId;
   fromDate: Date;
   toDate: Date;
+  isCancelled: boolean;
 }
 
 const hotelBookingSchema: mongoose.Schema<HotelBookingInterface> =
@@ -69,6 +70,9 @@ const hotelBookingSchema: mongoose.Schema<HotelBookingInterface> =
       toDate: {
         type: Date,
         required: true,
+      },
+      isCancelled: {
+        type: Boolean,
       },
     },
     { timestamps: true }
