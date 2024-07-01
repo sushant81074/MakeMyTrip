@@ -164,6 +164,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   await dbConnect();
+
   try {
     if (request.method !== "GET")
       throw new ApiError(405, "invalid request method");
@@ -179,13 +180,12 @@ export async function GET(request: NextRequest) {
 
     const allUserBookings = await HotelBooking.find({ userRef: user?._id });
 
-    if (!allUserBookings.length)
-      throw new ApiError(200, "look's like you have no bookings");
-
     return NextResponse.json(
       {
-        message: "all user bookings fetched successfully",
-        allUserBookings,
+        message: allUserBookings.length
+          ? "all user bookings fetched successfully"
+          : "looks like you have no bookings",
+        bookings: allUserBookings,
         success: true,
       },
       { status: 200 }
