@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
@@ -15,6 +15,8 @@ const config = {
       padding: "2rem",
       screens: {
         "2xl": "1400px",
+        minmd: "1700px",
+        minlg: "2100px",
       },
     },
     extend: {
@@ -53,6 +55,7 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -82,4 +85,4 @@ const config = {
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
 
-export default config
+export default config;

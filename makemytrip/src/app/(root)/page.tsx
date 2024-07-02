@@ -1,7 +1,16 @@
 import Image from "next/image";
+import Tajawal from "@/public/tajmahal.png";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import Places from "@/components/shared/places";
+
 export default async function Home() {
   return (
     <main className="py-3 px-6 h-full">
+      {/* Header */}
+
+      {/* section */}
+
       <section className="bg-white">
         <div className="py-4 px-2 mx-auto max-w-screen-xl sm:py-4 lg:px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 h-full">
