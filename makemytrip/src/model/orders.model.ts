@@ -9,6 +9,10 @@ interface OrderInterface extends Document {
 
 const orderSchema: mongoose.Schema<OrderInterface> = new mongoose.Schema(
   {
+    orderId: {
+      type: String,
+      required: true,
+    },
     bookingRef: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "HotelBooking",
@@ -19,13 +23,10 @@ const orderSchema: mongoose.Schema<OrderInterface> = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    orderId: {
-      type: String,
-      required: true,
-    },
     orders: [
       {
-        item: { type: String, required: true },
+        itemId: { type: String, required: true, trim: true },
+        itemRef: { type: mongoose.Schema.Types.ObjectId, required: true },
         price: { type: Number, required: true },
       },
     ],

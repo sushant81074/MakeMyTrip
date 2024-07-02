@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     if (request.method !== "GET")
       throw new ApiError(405, "invalid request method");
 
-    let bookingId = await request.nextUrl.searchParams.get("bookingId");
+    let bookingId = request.nextUrl.searchParams.get("bookingId");
 
     if (!bookingId) throw new ApiError(400, "no hotel selected");
 
