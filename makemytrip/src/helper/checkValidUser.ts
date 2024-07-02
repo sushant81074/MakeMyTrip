@@ -1,7 +1,7 @@
 import User from "@/model/user.model";
 
 export async function checkValidUser(tokenData: any) {
-  if (!tokenData || !tokenData._id) return false;
+  if (!tokenData || !tokenData._id) return { valid: false, user: null };
 
   try {
     const validUser = await User.findById(tokenData._id);
