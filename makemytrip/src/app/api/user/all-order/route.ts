@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     const orders = await User.aggregate([
       {
         $match: {
-          _id: new mongoose.Schema.ObjectId(`${tokenData?._id}`),
+          _id: new mongoose.Schema.ObjectId(`${user?._id}`),
         },
       },
       {
