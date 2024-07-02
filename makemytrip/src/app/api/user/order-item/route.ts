@@ -6,8 +6,11 @@ import { tokenDecrypter } from "@/helper/tokenDecrypter.helper";
 import { checkValidUser } from "@/helper/checkValidUser";
 import HotelBooking from "@/model/hotelBooking.model";
 import { randomUUID } from "crypto";
+import dbConnect from "@/lib/dbConnect";
 
 export async function POST(request: NextRequest) {
+  await dbConnect();
+
   try {
     if (request.method !== "POST")
       throw new ApiError(405, "Invalid request method");
