@@ -56,10 +56,4 @@ export const JoinAt = (date: string) => {
   const month = date.split("-")[1]; // getMonth() is zero-based
   const year = date.split("-")[0];
   return `${day}-${month}-${year}`;
-  // const year = date.split("-")[0];
-  // const month = date.split("-")[1];
-  // const day = date.split("-")[2];
-
-  // const newDate = `${day}-${month}-${year}`;
-  // return newDate;
 };
