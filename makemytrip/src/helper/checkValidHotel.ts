@@ -8,7 +8,7 @@ export async function checkValidHotel(tokenData: any) {
 
     if (!validHotel) return { valid: false, user: null };
 
-    return { valid: false, hotel: validHotel };
+    return { valid: true, hotel: validHotel };
   } catch (error: any) {
     console.error("error occured", error);
 
