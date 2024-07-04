@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { boolean } from "zod";
 
 interface OrderInterface extends Document {
   bookingRef: mongoose.Schema.Types.ObjectId;
@@ -28,6 +29,7 @@ const orderSchema: mongoose.Schema<OrderInterface> = new mongoose.Schema(
         itemId: { type: String, required: true, trim: true },
         itemRef: { type: mongoose.Schema.Types.ObjectId, required: true },
         price: { type: Number, required: true },
+        isCancelled: { type: boolean, default: false },
       },
     ],
   },
