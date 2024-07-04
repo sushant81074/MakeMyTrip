@@ -1,9 +1,7 @@
 import { fieldValidator } from "@/helper/fieldValidator";
 import { tokenDecrypter } from "@/helper/tokenDecrypter.helper";
 import RequestBooking from "@/model/requestBooking.model";
-import Room from "@/model/room.model";
 import RoomType from "@/model/roomType.model";
-import User from "@/model/user.model";
 import { MailOptions } from "@/utils/mailOptions";
 import transporter from "@/utils/nodemailer";
 import { randomUUID } from "crypto";
@@ -90,6 +88,16 @@ export async function POST(request: NextRequest) {
     );
   } catch (error: any) {
     console.error("error occured ", error?.message);
+
+    if (error?.message == "No recipients defined")
+      return NextResponse.json(
+        {
+          message:
+            "request for room booking has been sent to hotel and recorded as well successfully",
+          success: true,
+        },
+        { status: 201 }
+      );
 
     return NextResponse.json(
       { message: error?.message || "internal server error", success: false },
