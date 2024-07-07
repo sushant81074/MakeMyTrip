@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import beach from "@/public/beach.png";
@@ -126,23 +126,37 @@ const routes = [
 ];
 
 const Places = () => {
+  const [isFixed, setIsFixed] = useState(false);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest > 100) {
+      setIsFixed(true);
+    } else {
+      setIsFixed(false);
+    }
+  });
+
   const pathName = usePathname();
   console.log(pathName);
 
-  const [value, setValue] = useState("Home");
+  // const [value, setValue] = useState("Home");
   const [hideButtons, setHideButtons] = useState(false);
   const parentRef = useRef(null);
   const scrollRef = useRef(null);
 
   // handleScroll Function ----->
+  // @ts-ignore
   const handleScroll = (direction) => {
     const { current } = scrollRef;
 
     const scrollAmount = window.innerWidth > 1800 ? 270 : 210;
 
     if (direction === "left") {
+      // @ts-ignore
       current.scrollLeft -= scrollAmount;
     } else {
+      // @ts-ignore
       current.scrollLeft += scrollAmount;
     }
   };
@@ -152,6 +166,7 @@ const Places = () => {
     const { current } = scrollRef;
     const { current: parent } = parentRef;
 
+    // @ts-ignore
     if (current?.scrollWidth >= parent?.offsetWidth) {
       setHideButtons(false);
     } else {
@@ -168,9 +183,11 @@ const Places = () => {
   }, []);
 
   return (
-    <div
+    <motion.div
       ref={parentRef}
-      className="px-6 py-4 rounded-md bg-neutral-100 flex gap-4 items-center justify-start relative mx-auto max-w-2xl sm:py-4 lg:px-6"
+      className={`${
+        isFixed ? "fixed top-1 left-3 right-3 transition-all z-10" : "relative"
+      } px-6 py-4 rounded-md bg-neutral-100 flex gap-4 items-center justify-start mx-auto max-w-2xl sm:py-4 lg:px-6"`}
     >
       <ul
         ref={scrollRef}
@@ -183,7 +200,7 @@ const Places = () => {
           >
             <Link
               className="w-full whitespace-nowrap flex flex-col gap-1 items-center justify-center"
-              onClick={() => setValue(route.name)}
+              // onClick={() => setValue(route.name)}
               href={route.path}
             >
               <Image
@@ -228,7 +245,7 @@ const Places = () => {
           </div>
         </>
       )}
-    </div>
+    </motion.div>
   );
 };
 
