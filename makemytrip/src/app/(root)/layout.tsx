@@ -7,7 +7,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="">
       <Navbar />
-      <div className="py-3 px-6 h-full">
+      <div className="py-3 px-6 lg:px-0 h-full">
         <Places />
       </div>
 

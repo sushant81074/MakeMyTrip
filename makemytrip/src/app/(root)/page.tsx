@@ -7,8 +7,6 @@ import Places from "@/components/shared/places";
 export default async function Home() {
   return (
     <main className="py-3 px-6 h-full">
-      {/* Header */}
-
       {/* section */}
 
       <section className="bg-white">
@@ -27,9 +25,14 @@ export default async function Home() {
                   height={1960}
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                  Wines
-                </h3>
+                <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                  <h3 className="z-10 text-xl font-medium text-white xs:text-xl md:text-3xl">
+                    Mumbai
+                  </h3>
+                  <p className="z-10 text-sm font-medium line-clamp-1 text-white">
+                    Cosmpolitan and financial capital of India
+                  </p>
+                </div>
               </a>
             </div>
             <div className="col-span-2 sm:col-span-1 md:col-span-2 bg-stone-50">
@@ -45,9 +48,14 @@ export default async function Home() {
                   className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                  Gin
-                </h3>
+                <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                  <h3 className="z-10 text-xl font-medium text-white xs:text-xl md:text-3xl">
+                    Ho Chi Minh
+                  </h3>
+                  <p className="z-10 text-sm font-medium line-clamp-1 text-white">
+                    Economical, historical and entertainment centre of Vietnam
+                  </p>
+                </div>
               </a>
               <div className="grid gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-2">
                 <a
@@ -62,9 +70,14 @@ export default async function Home() {
                     className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                  <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                    Whiskey
-                  </h3>
+                  <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                    <h3 className="z-10 text-xl font-medium text-white xs:text-xl md:text-3xl">
+                      Paris
+                    </h3>
+                    <p className="z-10 text-sm font-medium line-clamp-1 text-white">
+                      The City Of Light{" "}
+                    </p>
+                  </div>
                 </a>
                 <a
                   href=""
@@ -78,9 +91,14 @@ export default async function Home() {
                     className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                  <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                    Vodka
-                  </h3>
+                  <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                    <h3 className="z-10 text-xl font-medium text-white xs:text-xl md:text-3xl">
+                      Krabi
+                    </h3>
+                    <p className="z-10 text-sm font-medium text-white">
+                      A quaint destination featuring endless natural beauty{" "}
+                    </p>
+                  </div>
                 </a>
               </div>
             </div>
@@ -97,9 +115,14 @@ export default async function Home() {
                   className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                  Brandy
-                </h3>
+                <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                  <h3 className="z-10 text-xl font-medium text-white xs:text-xl md:text-3xl">
+                    Maldives
+                  </h3>
+                  <p className="z-10 text-sm font-medium text-white">
+                    An ultimate luxurious and romantic holiday destination{" "}
+                  </p>
+                </div>
               </a>
             </div>
           </div>
@@ -122,9 +145,14 @@ export default async function Home() {
                   height={1960}
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                  Wines
-                </h3>
+                <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                  <h3 className="z-10 text-xl font-medium text-white xs:text-xl md:text-3xl">
+                    Phuket
+                  </h3>
+                  <p className="z-10 text-sm font-medium text-white">
+                    A tropical paradise boasting of stunning beaches
+                  </p>
+                </div>
               </a>
             </div>
             <div className="col-span-2 sm:col-span-1 md:col-span-3 bg-stone-50">
@@ -140,9 +168,14 @@ export default async function Home() {
                   className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                  Gin
-                </h3>
+                <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                  <h3 className="z-10 text-xl font-medium text-white xs:text-xl md:text-3xl">
+                    Bali
+                  </h3>
+                  <p className="z-10 text-sm font-medium text-white">
+                    Land of the Gods{" "}
+                  </p>
+                </div>
               </a>
               <div className="grid gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-2">
                 <a
@@ -157,9 +190,14 @@ export default async function Home() {
                     className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                  <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                    Whiskey
-                  </h3>
+                  <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                    <h3 className="z-10 text-xl font-medium text-white xs:text-xl md:text-3xl">
+                      Paris
+                    </h3>
+                    <p className="z-10 text-sm font-medium text-white">
+                      The city of light{" "}
+                    </p>
+                  </div>
                 </a>
                 <a
                   href=""
@@ -173,9 +211,14 @@ export default async function Home() {
                     className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                  <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                    Vodka
-                  </h3>
+                  <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                    <h3 className="z-10 text-xl font-medium text-white xs:text-xl md:text-3xl">
+                      Hyderabad
+                    </h3>
+                    <p className="z-10 text-sm font-medium text-white">
+                      The glorious city of Nizams known for radiant pearls
+                    </p>
+                  </div>
                 </a>
               </div>
             </div>
@@ -192,9 +235,14 @@ export default async function Home() {
                   className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                  Brandy
-                </h3>
+                <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                  <h3 className="z-10 text-xl font-medium text-white xs:text-xl md:text-3xl">
+                    Udaipur
+                  </h3>
+                  <p className="z-10 text-sm font-medium text-white">
+                    Crowned as India's most romantic city
+                  </p>
+                </div>
               </a>
             </div>
           </div>
@@ -217,9 +265,14 @@ export default async function Home() {
                   height={1960}
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                  Wines
-                </h3>
+                <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                  <h3 className="z-10 text-xl font-medium text-white xs:text-xl md:text-3xl">
+                    Shimla
+                  </h3>
+                  <p className="z-10 text-sm font-medium text-white">
+                    Endearing combination of snow-covered peaks and blue sky
+                  </p>
+                </div>
               </a>
             </div>
             <div className="col-span-2 sm:col-span-1 md:col-span-2 bg-stone-50">
@@ -235,9 +288,14 @@ export default async function Home() {
                   className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                  Gin
-                </h3>
+                <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                  <h3 className="z-10 text-xl font-medium text-white xs:text-xl md:text-3xl">
+                    Ooty
+                  </h3>
+                  <p className="z-10 text-sm font-medium text-white">
+                    Endless natural beauty of the Nilgiris
+                  </p>
+                </div>
               </a>
               <div className="grid gap-4 grid-cols-1 sm:grid-cols-1 lg:grid-cols-3">
                 <a
@@ -252,9 +310,14 @@ export default async function Home() {
                     className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                  <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                    Langkawi
-                  </h3>
+                  <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                    <h3 className="z-10 text-sm font-medium text-white xs:text-xl md:text-3xl">
+                      LangKawi
+                    </h3>
+                    <p className="z-10 text-sm font-medium text-white">
+                      Picturesque island
+                    </p>
+                  </div>
                 </a>
                 <a
                   href=""
@@ -268,9 +331,14 @@ export default async function Home() {
                     className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                  <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                    Dubai
-                  </h3>
+                  <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                    <h3 className="z-10 text-xl font-medium text-white xs:text-xl md:text-3xl">
+                      Dubai
+                    </h3>
+                    <p className="z-10 text-sm font-medium text-white">
+                      Treasured gem of the Emirates{" "}
+                    </p>
+                  </div>
                 </a>
                 <a
                   href=""
@@ -284,9 +352,14 @@ export default async function Home() {
                     className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                  <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                    Munnar
-                  </h3>
+                  <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                    <h3 className="z-10 text-xl font-medium text-white xs:text-xl md:text-3xl">
+                      Muunar
+                    </h3>
+                    <p className="z-10 text-sm font-medium text-white">
+                      Treasured gem of the Emirates
+                    </p>
+                  </div>
                 </a>
               </div>
             </div>
@@ -302,10 +375,16 @@ export default async function Home() {
                   alt=""
                   className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                 />
-                {/* <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div> */}
-                <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                  Singapore
-                </h3>
+
+                <div className="w-full whitespace-normal absolute left-0 bottom-0 px-4 py-1">
+                  <h3 className="z-10 text-xl font-medium text-white xs:text-xl md:text-3xl">
+                    Singapore
+                  </h3>
+                  <p className="z-10 text-sm font-medium text-white">
+                    Treasured gem of the Emirates The city of vast green spaces
+                    and glittering skyline
+                  </p>
+                </div>
               </a>
             </div>
           </div>
