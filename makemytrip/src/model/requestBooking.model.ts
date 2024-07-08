@@ -7,6 +7,9 @@ interface RequestBookingInterface extends Document {
   roomTypeId: string;
   fromDate: Date;
   toDate: Date;
+  isCancelledByUser: boolean;
+  isRejectedByHotel: boolean;
+  isApprovedByHotel: boolean;
 }
 
 const requestBookingSchema: mongoose.Schema<RequestBookingInterface> =
@@ -35,6 +38,18 @@ const requestBookingSchema: mongoose.Schema<RequestBookingInterface> =
       toDate: {
         type: Date,
         required: true,
+      },
+      isCancelledByUser: {
+        type: Boolean,
+        default: false,
+      },
+      isRejectedByHotel: {
+        type: Boolean,
+        default: false,
+      },
+      isApprovedByHotel: {
+        type: Boolean,
+        default: false,
       },
     },
     { timestamps: true }

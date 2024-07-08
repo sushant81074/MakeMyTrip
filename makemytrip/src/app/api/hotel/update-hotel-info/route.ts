@@ -77,6 +77,8 @@ export async function PATCH(request: NextRequest) {
       {
         $set: {
           otp,
+          isVerified: false,
+          isActive: false,
           ...requestedFields,
         },
       },
